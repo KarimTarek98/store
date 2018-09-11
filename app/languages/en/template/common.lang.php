@@ -1,0 +1,27 @@
+<?php
+$_['text_dashboard'] = 'Dashboard';
+$_['text_app_manager'] = 'App Manager';
+$_['text_stats'] = 'Statistics';
+$_['text_users'] = 'Users';
+$_['text_users_list'] = 'Users List';
+$_['text_users_groups'] = 'Users Groups';
+$_['text_users_privileges'] = 'Users Privileges';
+$_['text_store'] = 'Store';
+$_['text_store_categories'] = 'Store Categories';
+$_['text_store_products'] = 'Products';
+$_['text_clients'] = 'Clients';
+$_['text_suppliers'] = 'Suppliers';
+$_['text_expenses'] = 'Expenses';
+$_['text_daily_expenses'] = 'Daily Expenses';
+$_['text_expenses_categories'] = 'Expenses Categories';
+$_['text_transactions'] = 'Transactions';
+$_['text_transactions_purchases'] = 'Purchases';
+$_['text_transactions_sales'] = 'Sales';
+$_['text_reports'] = 'Reports';
+$_['text_notifications'] = 'Notifications';
+$_['text_welcome'] = 'Welcome';
+$_['text_profile'] = 'Profile';
+$_['text_change_password'] = 'Change Password';
+$_['text_settings'] = 'Account settings';
+$_['text_logout'] = 'Logout';
+$_['text_not_found'] = 'Page not found';
