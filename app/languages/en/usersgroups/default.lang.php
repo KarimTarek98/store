@@ -4,3 +4,4 @@ $_['text_header'] = 'Users Groups';
 $_['text_new_item'] = 'New Group';
 $_['text_table_group_name'] = 'Group name';
 $_['text_table_control'] = 'Control';
+$_['text_table_control_delete_confirm'] = 'Do you want to delete this group ?';
