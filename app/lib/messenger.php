@@ -42,14 +42,14 @@ class Messenger
         return isset($this->_session->messages);
     }
 
-    public function getMessages()
-    {
-        if ($this->messagesExsist())
-        {
-            $this->_messages = $this->_session->messages;
-            unset($this->_session->messages);
-            return $this->_messages;
-        }
-        return [];
-    }
+//    public function getMessages()
+//    {
+//        if ($this->messagesExsist())
+//        {
+//            $this->_messages = $this->_session->messages;
+//            unset($this->_session->messages);
+//            return $this->_messages;
+//        }
+//        return [];
+//    }
 }
