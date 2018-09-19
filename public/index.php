@@ -28,9 +28,13 @@ if (!isset($session->lang))
 $template = new Template($temp_parts);
 $language = new Language();
 
+$messenger = Messenger::gtInstance($session);
+
 $registry = Registry::getInstance();
 $registry->session = $session;
 $registry->language = $language;
-$messenger = Messenger::gtInstance();
+$registry->messenger = $messenger;
+
+
 $frontController = new FrontController($template , $registry);
 $frontController->dispatch();

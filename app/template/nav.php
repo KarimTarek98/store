@@ -1,4 +1,4 @@
-<nav class="main_navigation">
+<nav class="main_navigation <?= (isset($_COOKIE['menu_opened']) && $_COOKIE['menu_opened'] == 'true') ? 'opened no_animation' : '' ?>">
     <div class="employee_info">
         <div class="profile_picture">
             <img src="img/user.png" alt="User profile picture">
@@ -44,4 +44,7 @@
         <li><a href="/auth/logout"><i class="fa fa-sign-out"></i><?= $text_logout ?></a></li>
     </ul>
 </nav>
-<div class="action_view">
+<div class="action_view <?= (isset($_COOKIE['menu_opened']) && $_COOKIE['menu_opened'] == 'true') ? 'collapsed no_animation' : '' ?>">
+<?php $messages = $this->messenger->getMessages(); if (!empty($messages)): foreach ($messages as $message): ?>
+<p class="message t<?= $message[1] ?>"><?= $message[0] ?></p>
+<?php endforeach; endif; ?>

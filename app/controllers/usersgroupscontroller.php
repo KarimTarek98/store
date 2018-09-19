@@ -4,6 +4,7 @@ namespace PHPMVC\Controllers;
 
 use PHPMVC\LIB\Helper;
 use PHPMVC\LIB\InputFilter;
+use PHPMVC\LIB\Messenger;
 use PHPMVC\Models\PrivilegeModel;
 use PHPMVC\Models\UserGroupModel;
 use PHPMVC\Models\UserGroupPrivilegeModel;
@@ -14,17 +15,17 @@ class UsersGroupsController extends AbstractController
     use Helper;
     public function defaultAction()
     {
-        $this->_language->load('template.common');
-        $this->_language->load('usersgroups.default');
+        $this->language->load('template.common');
+        $this->language->load('usersgroups.default');
         $this->_data['groups'] = UserGroupModel::getAll();
         $this->_view();
     }
 
     public function createAction()
     {
-        $this->_language->load('template.common');
-        $this->_language->load('usersgroups.create');
-        $this->_language->load('usersgroups.labels');
+        $this->language->load('template.common');
+        $this->language->load('usersgroups.create');
+        $this->language->load('usersgroups.labels');
         $this->_data['privileges'] = PrivilegeModel::getAll();
         if (isset($_POST['submit']))
         {
@@ -42,6 +43,7 @@ class UsersGroupsController extends AbstractController
                         $groupPrivilege->save();
                     }
                 }
+                $this->messenger->add('تم انشاء مجموعة جديدة', Messenger::APP_MESSAGE_SUCCESS);
                 $this->redirect('/usersgroups');
             }
         }
@@ -56,9 +58,9 @@ class UsersGroupsController extends AbstractController
         {
             $this->redirect('/usersgroups');
         }
-        $this->_language->load('template.common');
-        $this->_language->load('usersgroups.edit');
-        $this->_language->load('usersgroups.labels');
+        $this->language->load('template.common');
+        $this->language->load('usersgroups.edit');
+        $this->language->load('usersgroups.labels');
         $this->_data['group'] = $group;
         $this->_data['privileges'] = PrivilegeModel::getAll();
         $groupPrivileges = UserGroupPrivilegeModel::getBy(['GroupId' => $group->GroupId]);
@@ -94,6 +96,7 @@ class UsersGroupsController extends AbstractController
                         $groupPrivilege->save();
                     }
                 }
+                $this->messenger->add('تم تعديل بيانات المجموعة', Messenger::APP_MESSAGE_INFO);
                 $this->redirect('/usersgroups');
             }
         }
@@ -104,13 +107,23 @@ class UsersGroupsController extends AbstractController
     {
         $id = $this->filterInt($this->_params[0]);
         $group = UserGroupModel::getByPK($id);
-
-        if($group === false)
+        if ($group === false)
         {
             $this->redirect('/usersgroups');
         }
-
-
+        $groupPrivileges = UserGroupPrivilegeModel::getBy(['GroupId' => $group->GroupId]);
+        if (false !== $groupPrivileges)
+        {
+            foreach ($groupPrivileges as $groupPrivilege)
+            {
+                $groupPrivilege->delete();
+            }
+        }
+        if ($group->delete())
+        {
+            $this->messenger->add('تم حذف المجموعة', Messenger::APP_MESSAGE_ERROR);
+            $this->redirect('/usersgroups');
+        }
     }
 
 }

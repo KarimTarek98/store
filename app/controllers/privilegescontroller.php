@@ -2,9 +2,11 @@
 
 namespace PHPMVC\Controllers;
 
+use PHPMVC\LIB\Messenger;
 use PHPMVC\Models\PrivilegeModel;
 use PHPMVC\LIB\InputFilter;
 use PHPMVC\LIB\Helper;
+use PHPMVC\Models\UserGroupPrivilegeModel;
 
 class PrivilegesController extends AbstractController
 {
@@ -12,17 +14,17 @@ class PrivilegesController extends AbstractController
     use Helper;
     public function defaultAction()
     {
-        $this->_language->load('template.common');
-        $this->_language->load('privileges.default');
+        $this->language->load('template.common');
+        $this->language->load('privileges.default');
         $this->_data['privileges'] = PrivilegeModel::getAll();
         $this->_view();
     }
     // TODO: we need to implement csrf prevention
     public function createAction()
     {
-        $this->_language->load('template.common');
-        $this->_language->load('privileges.labels');
-        $this->_language->load('privileges.create');
+        $this->language->load('template.common');
+        $this->language->load('privileges.labels');
+        $this->language->load('privileges.create');
 
         if (isset($_POST['submit']))
         {
@@ -31,12 +33,13 @@ class PrivilegesController extends AbstractController
             $privilege->Privilege = $this->filterString($_POST['Privilege']);
             if ($privilege->save())
             {
+                $this->messenger->add('تم حفظ الصلاحية بنجاح' , Messenger::APP_MESSAGE_SUCCESS);
                 $this->redirect('/privileges');
             }
         }
 
         $this->_view();
-    }
+    }//
     public function editAction()
     {
         $id = $this->filterInt($this->_params[0]);
@@ -48,9 +51,9 @@ class PrivilegesController extends AbstractController
 
         $this->_data['privilege'] = $privilege;
 
-        $this->_language->load('template.common');
-        $this->_language->load('privileges.labels');
-        $this->_language->load('privileges.edit');
+        $this->language->load('template.common');
+        $this->language->load('privileges.labels');
+        $this->language->load('privileges.edit');
 
         if (isset($_POST['submit']))
         {
@@ -58,6 +61,7 @@ class PrivilegesController extends AbstractController
             $privilege->Privilege = $this->filterString($_POST['Privilege']);
             if ($privilege->save())
             {
+                $this->messenger->add('تم تعديل بيانات الصلاحية', Messenger::APP_MESSAGE_INFO);
                 $this->redirect('/privileges');
             }
         }
@@ -73,8 +77,18 @@ class PrivilegesController extends AbstractController
             $this->redirect('/privileges');
         }
 
+        $groupPrivileges = UserGroupPrivilegeModel::getBy(['PrivilegeId' => $privilege->PrivilegeId]);
+        if (false !== $groupPrivileges)
+        {
+            foreach ($groupPrivileges as $groupPrivilege)
+            {
+                $groupPrivilege->delete();
+            }
+        }
+
         if ($privilege->delete())
         {
+            $this->messenger->add('تم حذف الصلاحية' , Messenger::APP_MESSAGE_ERROR);
             $this->redirect('/privileges');
         }
     }

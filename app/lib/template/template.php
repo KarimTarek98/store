@@ -7,10 +7,16 @@ class Template
     private $_templateParts;
     private $_actionView;
     private $_data;
+    private $_registry;
 
     public function __construct(array $parts)
     {
         $this->_templateParts = $parts;
+    }
+
+    public function __get($key)
+    {
+        return $this->_registry->$key;
     }
 
     public function setActionViewFile($actionViewPath)
@@ -21,6 +27,11 @@ class Template
     public function setAppData($data)
     {
         $this->_data = $data;
+    }
+
+    public function setRegistry($registry)
+    {
+        $this->_registry = $registry;
     }
 
     private function renderHeaderStart()

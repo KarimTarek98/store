@@ -1,5 +1,5 @@
 <header class="main">
-    <a href="javascript:;" data-menu-status="false" class="menu_switch"><i class="fa fa-bars"></i></a>
+    <a href="javascript:;" data-menu-status="false" class="menu_switch <?= (isset($_COOKIE['menu_opened'])) && $_COOKIE['menu_opened'] == true ? 'opened' : '' ?>"><i class="fa fa-bars"></i></a>
     <h1>
         <?= $text_dashboard ?>
         <?php if(isset($title)): ?>

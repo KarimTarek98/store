@@ -2,12 +2,14 @@
 
 namespace PHPMVC\Controllers;
 
+use PHPMVC\LIB\Messenger;
+
 class IndexController extends AbstractController
 {
     public function defaultAction()
     {
-        $this->_language->load('template.common');
-        @$this->_language->load('index.default');
+        $this->language->load('template.common');
+        @$this->language->load('index.default');
         $this->_view();
     }
 }
