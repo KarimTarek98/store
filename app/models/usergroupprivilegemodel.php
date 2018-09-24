@@ -12,4 +12,17 @@ class UserGroupPrivilegeModel extends AbstractModel
         'PrivilegeId'        => self::DATA_TYPE_INT
     );
     protected static $primaryKey = 'Id';    // we'll use this for updating clause
+    public static function getGroupPrivileges(UserGroupModel $group)
+    {
+        $groupPrivileges = self::getBy(['GroupId' => $group->GroupId]);
+        $extractedPrivilegesIds = [];
+        if (false !== $groupPrivileges)
+        {
+            foreach ($groupPrivileges as  $groupPrivilege)
+            {
+                $extractedPrivilegesIds[] = $groupPrivilege->PrivilegeId;
+            }
+        }
+        return $extractedPrivilegesIds;
+    }
 }

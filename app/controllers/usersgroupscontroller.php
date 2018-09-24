@@ -63,16 +63,7 @@ class UsersGroupsController extends AbstractController
         $this->language->load('usersgroups.labels');
         $this->_data['group'] = $group;
         $this->_data['privileges'] = PrivilegeModel::getAll();
-        $groupPrivileges = UserGroupPrivilegeModel::getBy(['GroupId' => $group->GroupId]);
-        $extractedPrivilegesIds = [];
-        if (false !== $groupPrivileges)
-        {
-            foreach ($groupPrivileges as  $groupPrivilege)
-            {
-                $extractedPrivilegesIds[] = $groupPrivilege->PrivilegeId;
-            }
-        }
-        $this->_data['groupPrivileges'] = $extractedPrivilegesIds;
+        $extractedPrivilegesIds = $this->_data['groupPrivileges'] = UserGroupPrivilegeModel::getGroupPrivileges($group);
         if (isset($_POST['submit']))
         {
             $group->GroupName = $this->filterString($_POST['GroupName']);
